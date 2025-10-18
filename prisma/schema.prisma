@@ -6,10 +6,35 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Style {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(50)
+  prompt  String   @db.Text
+  images  Image[]
+}
+
+model Image {
+  id           String   @id @default(uuid())
+  url          String   @db.VarChar(100)
+  style_id     Int
+  submitted_at DateTime @db.Timestamp(6)
+  submitted_by String   @db.VarChar(50)
+  status       String   @db.VarChar(20)
+
+  style   Style   @relation(fields: [style_id], references: [id])
+  users   UserImage[]
+}
+
+model UserImage {
+  id        String @id @default(uuid())
+  user_id   String @db.VarChar(50)
+  image_id  String
+  image     Image  @relation(fields: [image_id], references: [id])
 }
