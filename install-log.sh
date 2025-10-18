@@ -1,0 +1,3 @@
+# Prisma (DB管理)
+npm install prisma --save-dev
+npm install @prisma/client
