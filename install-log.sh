@@ -7,3 +7,6 @@ npm install @nestjs/swagger swagger-ui-express
 
 # 画像アップロード関連
 npm install multer @nestjs/platform-express
+
+# 環境変数管理
+npm install @nestjs/config
