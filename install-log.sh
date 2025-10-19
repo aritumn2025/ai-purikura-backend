@@ -13,3 +13,6 @@ npm install @nestjs/config
 
 # HTTP通信 (AI API呼び出し)
 npm install @nestjs/axios
+
+# バリデーション
+npm install class-validator class-transformer
