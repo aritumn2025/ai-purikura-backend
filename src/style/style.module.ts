@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { StyleController } from './style.controller';
 import { StyleService } from './style.service';
+import { StyleController } from './style.controller';
 
 @Module({
-  controllers: [StyleController],
+  // PrismaModuleのインポートはグローバル化しているため不要
   providers: [StyleService],
+  controllers: [StyleController],
 })
 export class StyleModule {}
