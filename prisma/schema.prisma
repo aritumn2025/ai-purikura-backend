@@ -14,27 +14,45 @@ datasource db {
 }
 
 model Style {
-  id      Int      @id @default(autoincrement())
-  name    String   @db.VarChar(50)
-  prompt  String   @db.Text
-  images  Image[]
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(50)
+  description String   @db.VarChar(255)
+  imageUrl    String?  @db.VarChar(255) @map("image_url")
+  prompt      String
+  images      Image[]
+
+  @@map("styles")
+}
+
+enum ImageStatus {
+  pending
+  processing
+  completed
+  failed
 }
 
 model Image {
-  id           String   @id @default(uuid())
-  url          String   @db.VarChar(100)
-  style_id     Int
-  submitted_at DateTime @db.Timestamp(6)
-  submitted_by String   @db.VarChar(50)
-  status       String   @db.VarChar(20)
+  id           String       @id @default(uuid())
+  url          String       @db.VarChar(100)
+  styleId      Int          @map("style_id")
+  submittedAt  DateTime     @db.Timestamp(6) @map("submitted_at")
+  submittedBy  String       @db.VarChar(50)  @map("submitted_by")
+  status       ImageStatus  @default(pending)
 
-  style   Style   @relation(fields: [style_id], references: [id])
+  style   Style      @relation(fields: [styleId], references: [id], onDelete: Cascade)
   users   UserImage[]
+
+  @@map("images")
 }
 
 model UserImage {
-  id        String @id @default(uuid())
-  user_id   String @db.VarChar(50)
-  image_id  String
-  image     Image  @relation(fields: [image_id], references: [id])
+  id       String  @id @default(uuid())
+  userId   String  @db.VarChar(50) @map("user_id")
+  imageId  String  @map("image_id")
+
+  image    Image   @relation(fields: [imageId], references: [id])
+
+  @@index([userId])
+  @@index([imageId])
+  @@map("user_images")
 }
