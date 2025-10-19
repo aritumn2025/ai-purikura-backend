@@ -39,7 +39,6 @@ export class StyleService {
         name: true,
         description: true,
         imageUrl: true,
-        prompt: false,
       },
     });
   }
